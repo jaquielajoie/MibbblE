@@ -1,0 +1,62 @@
+.canvas {
+  border: 1rem solid black;
+}
+
+div.prologue {
+  position: absolute;
+  font-family: 'Catamaran', sans-serif;
+  left: 2.5rem; top: 0.5rem; z-index: 1;
+}
+
+div.narrative {
+  position: absolute;
+  font-family: 'Cinzel Decorative', cursive;
+  left: 2.5rem; top: 25rem; z-index: 1;
+}
+
+div.scroll {
+  display: block;
+  border: 0px solid blue;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  height: 64rem;
+  overflow-y: scroll;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 2rem;
+  border-radius: 0.5rem;
+}
+
+div.epilogue {
+  position: absolute;
+  font-family: 'Passion One', cursive;
+  right: 2.5rem; bottom: 0.5rem; z-index: 1;
+}
+
+.light-text {
+  color: white;
+}
+
+.dark-text {
+  color: red;
+}
+
+.blue-text {
+  color: #00FFEE;
+}
+
+/* Scrollbar */
+.scroll::-webkit-scrollbar {
+  width: 2rem; /* Width */
+}
+.scroll::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 0.5rem; /* Track */
+}
+.scroll::-webkit-scrollbar-thumb {
+  background: #8080FF;
+  border-radius: 1rem; /* Handle */
+}
+.scroll::-webkit-scrollbar-thumb:hover {
+  background: #808088; /* Handle on hover */
+}
+/* End Scrollbar */
