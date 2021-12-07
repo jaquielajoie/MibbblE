@@ -32,6 +32,14 @@ div.epilogue {
   right: 2.5rem; bottom: 0.5rem; z-index: 1;
 }
 
+div.exclamation {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  color: white;
+  font-size: 16rem;
+}
+
 .light-text {
   color: white;
 }

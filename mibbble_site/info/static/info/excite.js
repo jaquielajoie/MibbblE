@@ -89,20 +89,36 @@ class Divisor { /* Schizo */
   }
 }
 
+let rotate = (cx, cy, x, y, angle) => {
+    var radians = (Math.PI / 180) * angle,
+        cos = Math.cos(radians),
+        sin = Math.sin(radians),
+        nx = (cos * (x - cx)) + (sin * (y - cy)) + cx,
+        ny = (cos * (y - cy)) - (sin * (x - cx)) + cy;
+    return [nx, ny];
+}
+
 /* Iterability */
 let update = (canvas, c, actors) => {}
 
 let render = (canvas, c, actors) => {
 
-  c.fillStyle = "#000033"; /* I: haxy */
-  c.fillRect(0, 0, canvas.width / 2, canvas.height);
+  if (styleChapterII) {
+    c.fillStyle = "#000011"; /* I: haxy */
+    c.fillRect(0, 0, canvas.width / 2, canvas.height);
 
-  c.fillStyle = "#330000"; /* II: need to abstract */
-  c.fillRect(canvas.width / 2, 0, canvas.width, canvas.height);
+    c.fillStyle = "#110000"; /* II: need to abstract */
+    c.fillRect(canvas.width / 2, 0, canvas.width, canvas.height);
+  } else {
+    c.fillStyle = "#000033"; /* I: haxy */
+    c.fillRect(0, 0, canvas.width / 2, canvas.height);
+
+    c.fillStyle = "#330000"; /* II: need to abstract */
+    c.fillRect(canvas.width / 2, 0, canvas.width, canvas.height);
+  }
 
   var strokeStyle = "#FF0000";
   actors["excitations"].forEach((exc, i) => {
-    console.log(exc);
     exc.visualize(20, strokeStyle);
   });
 
@@ -152,32 +168,60 @@ let snap = (canvas, c, actors) => {
 /* Contextualize Interactions */
 let traumatize = (c, actors) => {
   return addEventListener('click', (event) => {
-    /* descriminate based on origin and meridian */
-    const excitation = new Excitation(c, event.x, event.y);
-    actors["excitations"].push(excitation);
 
-    actors["origins"].forEach((orig, i) => {
-      const divisor = new Divisor(orig, excitation);
-      actors["divisors"].push(divisor);
-      /* for the new divisor, create the reflection */
-      const rx = orig.x - (event.x - orig.x);
-      const ry = orig.y - (event.y - orig.y);
-      actors["reflections"].push(new Reflection(c, rx, ry));
-    });
+    if (!haltClicks) {
+      /* descriminate based on origin and meridian */
+      const excitation = new Excitation(c, event.x, event.y);
+      actors["excitations"].push(excitation);
 
+      actors["origins"].forEach((orig, i) => {
+        const divisor = new Divisor(orig, excitation);
+        actors["divisors"].push(divisor);
+        /* for the new divisor, create the reflection */
+        const rx = orig.x - (event.x - orig.x);
+        const ry = orig.y - (event.y - orig.y);
+        actors["reflections"].push(new Reflection(c, rx, ry));
+
+      });
+    }
   });
 }
 
+var haltClicks = false;
+var styleChapterII = false;
+
+function IIstyle() {
+  haltClicks = true;
+  styleChapterII = true;
+
+  fuk = document.createTextNode("Fuk");
+  d = document.createElement("div");
+  d.setAttribute("class", "exclamation");
+  d.append(fuk);
+
+  b = document.getElementById("body");
+  b.append(d);
+
+  return setTimeout(() => { /* stops click bleed */
+    actors["excitations"] = [];
+    actors["reflections"] = [];
+    actors["divisors"] = [];
+    haltClicks = false;
+    d.remove();
+  }, 2500);
+}
+
+/* I: Information Persistence (global narration) */
+var actors = {
+  "excitations": [],
+  "reflections": [],
+  "origins": [],
+  "meridians": [],
+  "divisors": []
+};
+
 /* Configure and launch process */
 window.onload = () => {
-  /* I: Information Persistence */
-  var actors = {
-    "excitations": [],
-    "reflections": [],
-    "origins": [],
-    "meridians": [],
-    "divisors": []
-  };
 
   /* I: Objects */
   const _canvas_1 = document.getElementById("canvas_1");
@@ -201,4 +245,5 @@ window.onload = () => {
   window.requestAnimationFrame(_snap_1);
 
   /* II: Example */
+
 }
